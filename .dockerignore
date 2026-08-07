@@ -1,0 +1,14 @@
+node_modules
+.next
+.git
+.github
+.vscode
+coverage
+dist
+build
+.env.local
+.env
+npm-debug.log
+Dockerfile.dev
+compose.yaml
+README.md
