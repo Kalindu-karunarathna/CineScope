@@ -1,41 +1,26 @@
 "use client";
 
+import { ErrorState } from "@/components/common/ErrorState";
 import { MovieRow } from "@/components/movie/MovieRow";
 import { MovieCardSkeleton } from "@/components/movie/MovieCardSkeleton";
-import { Button } from "@/components/ui/button";
 import { useTrendingMovies } from "@/hooks/movies/useTrendingMovies";
 
 const sectionTitle = "Trending Movies";
 
 export function TrendingSection() {
-  const { data, isLoading, isError, error, refetch } = useTrendingMovies();
+  const { data, isLoading, isError, refetch } = useTrendingMovies();
 
   if (isLoading) {
     return <TrendingMoviesSkeleton />;
   }
 
   if (isError) {
-    const retryMessage = error instanceof Error ? "Please try again." : "Please try again later.";
-
     return (
-      <section className="space-y-4" aria-labelledby="trending-movies-heading">
-        <h2
-          id="trending-movies-heading"
-          className="text-xl font-semibold tracking-tight sm:text-2xl"
-        >
-          {sectionTitle}
-        </h2>
-        <div
-          className="rounded-lg border border-destructive/30 bg-destructive/10 p-4 text-sm"
-          role="alert"
-        >
-          <p className="font-medium">We couldn&apos;t load trending movies right now.</p>
-          <p className="mt-1 text-muted-foreground">{retryMessage}</p>
-          <Button className="mt-3" variant="outline" onClick={() => void refetch()}>
-            Try again
-          </Button>
-        </div>
-      </section>
+      <ErrorState
+        title="Unable to load trending movies"
+        description="Please check your connection and try again."
+        onRetry={() => void refetch()}
+      />
     );
   }
 
