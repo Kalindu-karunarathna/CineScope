@@ -1,6 +1,7 @@
 "use client";
 
 import { MovieRow } from "@/components/movie/MovieRow";
+import { MovieCardSkeleton } from "@/components/movie/MovieCardSkeleton";
 import { Button } from "@/components/ui/button";
 import { useTrendingMovies } from "@/hooks/movies/useTrendingMovies";
 
@@ -64,12 +65,17 @@ function TrendingMoviesSkeleton() {
       <p className="sr-only" role="status">
         Loading trending movies
       </p>
-      <div className="flex gap-4 overflow-hidden" aria-hidden="true">
+      <div
+        className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+        tabIndex={0}
+        aria-label="Trending movies loading"
+      >
         {Array.from({ length: 5 }, (_, index) => (
-          <div key={`trending-movie-skeleton-${index}`} className="w-40 shrink-0 sm:w-48">
-            <div className="aspect-2/3 animate-pulse rounded-lg bg-muted" />
-            <div className="mt-3 h-5 animate-pulse rounded bg-muted" />
-            <div className="mt-2 h-4 w-2/3 animate-pulse rounded bg-muted" />
+          <div
+            key={`trending-movie-skeleton-${index}`}
+            className="w-40 shrink-0 snap-start sm:w-48"
+          >
+            <MovieCardSkeleton />
           </div>
         ))}
       </div>
