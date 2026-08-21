@@ -19,10 +19,11 @@ export function ThemeToggle() {
   if (!mounted) {
     return (
       <Button
+        type="button"
         variant="ghost"
         size="icon"
         aria-label="Toggle theme"
-        className="size-9 rounded-full border border-border/40 bg-background/50"
+        className="size-10 rounded-full border border-border/40 bg-background/50"
         disabled
       >
         <Sun className="size-4 opacity-50" aria-hidden="true" />
@@ -55,12 +56,13 @@ export function ThemeToggle() {
 
   return (
     <Button
+      type="button"
       variant="ghost"
       size="icon"
       onClick={cycleTheme}
       aria-label={getLabel()}
       title={`Current theme: ${currentThemeLabel}. Click to switch.`}
-      className="size-9 rounded-full border border-border/50 bg-background/60 hover:bg-accent hover:text-accent-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+      className="size-10 rounded-full border border-border/50 bg-background/60 hover:bg-accent hover:text-accent-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
     >
       {theme === "system" ? (
         <Monitor className="size-4 text-foreground/80" aria-hidden="true" />

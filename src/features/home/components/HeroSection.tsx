@@ -113,20 +113,23 @@ function HeroContent({ movie }: { movie: Movie }) {
           <div className="flex flex-col gap-3 pt-1 sm:flex-row sm:flex-wrap">
             <Link
               href={`/movies/${movie.id}`}
+              aria-label={`View details for ${movie.title}`}
               className={cn(
                 buttonVariants({ size: "lg" }),
-                "min-h-11 w-full justify-center sm:w-auto"
+                "min-h-11 w-full justify-center focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 sm:w-auto"
               )}
             >
               <Play className="size-4 fill-current" aria-hidden="true" />
               View Details
             </Link>
             <Button
+              type="button"
               variant="outline"
               size="lg"
               disabled
+              aria-label="Add to favorites (coming soon)"
               title="Favorites coming soon"
-              className="min-h-11 w-full justify-center sm:w-auto"
+              className="min-h-11 w-full justify-center focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 sm:w-auto"
             >
               <Heart className="size-4" aria-hidden="true" />
               Add Favorite

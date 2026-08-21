@@ -6,7 +6,7 @@ import { UpcomingSection } from "@/features/home/components/UpcomingSection";
 
 export default function HomePage() {
   return (
-    <main>
+    <main id="main-content" tabIndex={-1} className="outline-none">
       <HeroSection />
       <div className="mx-auto max-w-7xl space-y-10 px-4 py-10 sm:space-y-12 sm:px-6 sm:py-12 lg:space-y-14 lg:px-8 xl:px-10">
         <TrendingSection />

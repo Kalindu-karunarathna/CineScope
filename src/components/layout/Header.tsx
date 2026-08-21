@@ -9,6 +9,7 @@ export function Header() {
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8 xl:px-10">
         <Link
           href="/"
+          aria-label="CineScope home"
           className="flex items-center gap-2 text-lg font-bold tracking-tight text-foreground transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-md"
         >
           <div className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-sm">
