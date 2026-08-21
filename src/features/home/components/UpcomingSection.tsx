@@ -29,7 +29,7 @@ export function UpcomingSection() {
       <section className="space-y-4" aria-labelledby="upcoming-movies-heading">
         <h2
           id="upcoming-movies-heading"
-          className="text-xl font-semibold tracking-tight sm:text-2xl"
+          className="text-lg font-semibold tracking-tight sm:text-xl md:text-2xl"
         >
           {sectionTitle}
         </h2>

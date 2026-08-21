@@ -24,11 +24,15 @@ export function ErrorState({
     >
       <div className="flex items-start gap-3">
         <CircleAlert className="mt-0.5 size-5 shrink-0 text-destructive" aria-hidden="true" />
-        <div className="min-w-0">
-          <h2 className="font-semibold text-foreground">{title}</h2>
-          <p className="mt-1 text-sm text-muted-foreground">{description}</p>
+        <div className="min-w-0 flex-1">
+          <h2 className="break-words font-semibold text-foreground">{title}</h2>
+          <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{description}</p>
           {onRetry && (
-            <Button className="mt-4" variant="outline" onClick={() => void onRetry()}>
+            <Button
+              className="mt-4 min-h-11 w-full sm:w-auto"
+              variant="outline"
+              onClick={() => void onRetry()}
+            >
               {retryLabel}
             </Button>
           )}
