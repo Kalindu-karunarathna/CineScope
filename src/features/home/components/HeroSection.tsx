@@ -6,6 +6,7 @@ import { Heart, Play, Star } from "lucide-react";
 
 import { ErrorState } from "@/components/common/ErrorState";
 import { Button, buttonVariants } from "@/components/ui/button";
+import { useFavorites } from "@/hooks/useFavorites";
 import { useTrendingMovies } from "@/hooks/movies/useTrendingMovies";
 import { cn } from "@/lib/utils";
 import type { Movie } from "@/services/tmdb/types";
@@ -50,6 +51,8 @@ export function HeroSection() {
 
 function HeroContent({ movie }: { movie: Movie }) {
   const releaseYear = movie.release_date ? movie.release_date.slice(0, 4) : null;
+  const { isFavorite, toggleFavorite } = useFavorites();
+  const active = isFavorite(movie.id);
 
   return (
     <section
@@ -124,15 +127,23 @@ function HeroContent({ movie }: { movie: Movie }) {
             </Link>
             <Button
               type="button"
-              variant="outline"
+              variant={active ? "destructive" : "outline"}
               size="lg"
-              disabled
-              aria-label="Add to favorites (coming soon)"
-              title="Favorites coming soon"
+              onClick={() => toggleFavorite(movie)}
+              aria-label={
+                active ? `Remove ${movie.title} from favorites` : `Add ${movie.title} to favorites`
+              }
+              aria-pressed={active}
               className="min-h-11 w-full justify-center focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 sm:w-auto"
             >
-              <Heart className="size-4" aria-hidden="true" />
-              Add Favorite
+              <Heart
+                className={cn(
+                  "size-4 transition-transform active:scale-110",
+                  active && "fill-current"
+                )}
+                aria-hidden="true"
+              />
+              {active ? "Remove Favorite" : "Add Favorite"}
             </Button>
           </div>
         </div>

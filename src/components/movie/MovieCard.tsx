@@ -2,15 +2,18 @@ import Image from "next/image";
 import Link from "next/link";
 import { Star } from "lucide-react";
 
+import { FavoriteButton } from "@/components/movie/FavoriteButton";
 import type { Movie } from "@/services/tmdb/types";
 
 interface MovieCardProps {
   movie: Movie;
+  /** Show the favorite heart button overlay on the poster. Defaults to true. */
+  showFavoriteButton?: boolean;
 }
 
 const TMDB_POSTER_BASE_URL = "https://image.tmdb.org/t/p/w500";
 
-export function MovieCard({ movie }: MovieCardProps) {
+export function MovieCard({ movie, showFavoriteButton = true }: MovieCardProps) {
   const releaseYear = movie.release_date
     ? movie.release_date.slice(0, 4)
     : "Release date unavailable";
@@ -39,6 +42,12 @@ export function MovieCard({ movie }: MovieCardProps) {
               aria-hidden="true"
             >
               Poster unavailable
+            </div>
+          )}
+
+          {showFavoriteButton && (
+            <div className="absolute top-1.5 right-1.5 opacity-0 transition-opacity duration-200 group-hover:opacity-100 focus-within:opacity-100">
+              <FavoriteButton movie={movie} />
             </div>
           )}
         </div>

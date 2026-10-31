@@ -215,7 +215,7 @@ export function MovieDetails({ movie }: MovieDetailsProps) {
                   type="button"
                   variant={favorite ? "destructive" : "default"}
                   size="lg"
-                  onClick={() => toggleFavorite(movie.id)}
+                  onClick={() => toggleFavorite(movie)}
                   aria-label={
                     favorite
                       ? `Remove ${movie.title} from favorites`

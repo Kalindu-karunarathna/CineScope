@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Film, Search } from "lucide-react";
+import { Film, Heart, Search } from "lucide-react";
 
 import { ThemeToggle } from "@/components/common/ThemeToggle";
 import { buttonVariants } from "@/components/ui/button";
@@ -20,7 +20,18 @@ export function Header() {
           <span>CineScope</span>
         </Link>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1">
+          <Link
+            href="/favorites"
+            aria-label="My favorites"
+            className={cn(
+              buttonVariants({ variant: "ghost", size: "sm" }),
+              "gap-1.5 text-muted-foreground hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
+            )}
+          >
+            <Heart className="size-4" aria-hidden="true" />
+            <span className="hidden sm:inline">Favorites</span>
+          </Link>
           <Link
             href="/search"
             aria-label="Search movies"
