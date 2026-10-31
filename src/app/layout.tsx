@@ -19,8 +19,53 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "CineScope - Discover Movies",
-  description: "Explore trending, popular, top rated, and upcoming movies.",
+  /**
+   * metadataBase is required for absolute Open Graph image URLs.
+   * Set NEXT_PUBLIC_SITE_URL in your production environment (e.g. https://cinescope.example.com).
+   * The localhost fallback is only for local development and must NOT be used in production.
+   */
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
+
+  applicationName: "CineScope",
+
+  /**
+   * Title template: individual pages export `title: "Page Name"` and Next.js
+   * automatically produces "Page Name | CineScope" in the <title> tag.
+   * The default renders when a page does not export its own title.
+   */
+  title: {
+    default: "CineScope — Discover Movies",
+    template: "%s | CineScope",
+  },
+
+  description:
+    "Discover trending movies, explore movie details, search for your favorites, and build your personal movie collection.",
+
+  openGraph: {
+    type: "website",
+    siteName: "CineScope",
+    title: "CineScope — Discover Movies",
+    description:
+      "Discover trending movies, explore movie details, search for your favorites, and build your personal movie collection.",
+    /**
+     * og:image — if you add a dedicated social-sharing image, place it at
+     * public/og-image.png (1200×630) and uncomment the line below.
+     * Without it, social crawlers will fall back to the page title card.
+     */
+    // images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "CineScope" }],
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: "CineScope — Discover Movies",
+    description:
+      "Discover trending movies, explore movie details, search for your favorites, and build your personal movie collection.",
+  },
+
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

@@ -1,8 +1,33 @@
+import type { Metadata } from "next";
+
 import { HeroSection } from "@/features/home/components/HeroSection";
 import { PopularSection } from "@/features/home/components/PopularSection";
 import { TopRatedSection } from "@/features/home/components/TopRatedSection";
 import { TrendingSection } from "@/features/home/components/TrendingSection";
 import { UpcomingSection } from "@/features/home/components/UpcomingSection";
+
+export const metadata: Metadata = {
+  // Produces: "Discover Movies | CineScope"  (via root layout title template)
+  title: "Discover Movies",
+  description:
+    "Discover trending movies, explore popular films, and find your next favorite movie with CineScope.",
+  openGraph: {
+    title: "Discover Movies | CineScope",
+    description:
+      "Discover trending movies, explore popular films, and find your next favorite movie with CineScope.",
+    url: "/",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Discover Movies | CineScope",
+    description:
+      "Discover trending movies, explore popular films, and find your next favorite movie with CineScope.",
+  },
+  alternates: {
+    canonical: "/",
+  },
+};
 
 export default function HomePage() {
   return (
