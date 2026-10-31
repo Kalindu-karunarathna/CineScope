@@ -1,10 +1,11 @@
 "use client";
 
-import { ChevronLeft, ChevronRight, Film, SearchX } from "lucide-react";
+import { useEffect, useRef } from "react";
+import { Film, SearchX } from "lucide-react";
 
 import { ErrorState } from "@/components/common/ErrorState";
+import { Pagination } from "@/components/common/Pagination";
 import { MovieCard } from "@/components/movie/MovieCard";
-import { Button } from "@/components/ui/button";
 import { useMovieSearch } from "@/hooks/useMovieSearch";
 import { SearchResultsSkeleton } from "./SearchResultsSkeleton";
 
@@ -16,9 +17,23 @@ interface SearchResultsProps {
 
 export function SearchResults({ query, page, onPageChange }: SearchResultsProps) {
   const cleanQuery = query.trim();
-  const { data, isLoading, isError, refetch } = useMovieSearch(cleanQuery, page);
+  const { data, isLoading, isFetching, isError, refetch } = useMovieSearch(cleanQuery, page);
 
-  // 1. Initial State (No search query typed yet)
+  // Normalize an out-of-range page once the response is available.
+  // We track the last normalised page in a ref to avoid triggering this more
+  // than once for the same data set (prevents an infinite-update loop).
+  const lastNormalisedForRef = useRef<string | null>(null);
+  useEffect(() => {
+    if (data && data.total_pages > 0 && page > data.total_pages) {
+      const key = `${cleanQuery}:${data.total_pages}`;
+      if (lastNormalisedForRef.current !== key) {
+        lastNormalisedForRef.current = key;
+        onPageChange(data.total_pages);
+      }
+    }
+  }, [data, page, cleanQuery, onPageChange]);
+
+  // 1. Initial State — no search query
   if (!cleanQuery) {
     return (
       <section
@@ -39,7 +54,7 @@ export function SearchResults({ query, page, onPageChange }: SearchResultsProps)
     );
   }
 
-  // 2. Loading State
+  // 2. Initial Loading State (no cached data yet)
   if (isLoading) {
     return <SearchResultsSkeleton count={10} />;
   }
@@ -95,52 +110,44 @@ export function SearchResults({ query, page, onPageChange }: SearchResultsProps)
         </span>
       </div>
 
-      {/* Movies Grid */}
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-6 md:grid-cols-4 lg:grid-cols-5">
-        {results.map((movie) => (
-          <MovieCard key={movie.id} movie={movie} />
-        ))}
+      {/* Movies Grid — dimmed while fetching the next page (keepPreviousData) */}
+      <div
+        className="relative"
+        aria-busy={isFetching}
+        aria-label={isFetching ? "Loading new page results" : undefined}
+      >
+        {isFetching && (
+          <div
+            className="absolute inset-0 z-10 flex items-center justify-center rounded-lg bg-background/50 backdrop-blur-[1px]"
+            aria-hidden="true"
+          >
+            <div className="flex gap-1.5">
+              {[0, 1, 2].map((i) => (
+                <span
+                  key={i}
+                  className="size-2 rounded-full bg-primary animate-bounce"
+                  style={{ animationDelay: `${i * 0.15}s` }}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-6 md:grid-cols-4 lg:grid-cols-5">
+          {results.map((movie) => (
+            <MovieCard key={movie.id} movie={movie} />
+          ))}
+        </div>
       </div>
 
-      {/* Pagination Controls */}
+      {/* Pagination — only shown when there is more than one page */}
       {total_pages > 1 && (
-        <nav
-          className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-border"
-          aria-label="Search results pagination"
-        >
-          <p className="text-xs text-muted-foreground sm:text-sm">
-            Page <span className="font-semibold text-foreground">{page}</span> of{" "}
-            <span className="font-semibold text-foreground">{total_pages}</span>
-          </p>
-
-          <div className="flex items-center gap-2">
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              disabled={page <= 1}
-              onClick={() => onPageChange(page - 1)}
-              aria-label="Go to previous page"
-              className="gap-1 min-h-9 px-3 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-            >
-              <ChevronLeft className="size-4" aria-hidden="true" />
-              <span>Previous</span>
-            </Button>
-
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              disabled={page >= total_pages}
-              onClick={() => onPageChange(page + 1)}
-              aria-label="Go to next page"
-              className="gap-1 min-h-9 px-3 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-            >
-              <span>Next</span>
-              <ChevronRight className="size-4" aria-hidden="true" />
-            </Button>
-          </div>
-        </nav>
+        <Pagination
+          page={page}
+          totalPages={total_pages}
+          onPageChange={onPageChange}
+          isTransitioning={isFetching}
+        />
       )}
     </section>
   );
