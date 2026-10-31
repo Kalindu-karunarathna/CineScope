@@ -19,7 +19,7 @@ export const QUERY_KEYS = {
   },
 
   search: {
-    movies: (query: string) => ["search", "movies", query] as const,
+    movies: (query: string, page: number = 1) => ["search", "movies", query, page] as const,
   },
 
   genres: {

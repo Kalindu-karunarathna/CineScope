@@ -1,0 +1,1 @@
+export { useMovieSearch } from "../useMovieSearch";

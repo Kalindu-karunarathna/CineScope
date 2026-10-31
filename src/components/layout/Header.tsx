@@ -1,7 +1,9 @@
 import Link from "next/link";
-import { Film } from "lucide-react";
+import { Film, Search } from "lucide-react";
 
 import { ThemeToggle } from "@/components/common/ThemeToggle";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 export function Header() {
   return (
@@ -19,6 +21,17 @@ export function Header() {
         </Link>
 
         <div className="flex items-center gap-2">
+          <Link
+            href="/search"
+            aria-label="Search movies"
+            className={cn(
+              buttonVariants({ variant: "ghost", size: "sm" }),
+              "gap-1.5 text-muted-foreground hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
+            )}
+          >
+            <Search className="size-4" aria-hidden="true" />
+            <span className="hidden sm:inline">Search</span>
+          </Link>
           <ThemeToggle />
         </div>
       </div>
