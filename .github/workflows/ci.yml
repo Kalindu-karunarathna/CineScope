@@ -29,5 +29,14 @@ jobs:
       - name: Run ESLint
         run: npm run lint
 
+      - name: Generate Prisma Client
+        run: npx prisma generate --config prisma7.config.ts
+
+      - name: Build Next.js
+        run: npm run build
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.DIRECT_URL }}
+
       - name: Build Application
         run: npm run build
